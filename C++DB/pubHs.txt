@@ -1,0 +1,2 @@
+0	co1	is1	lan1	n1
+1	co2	is2	lan2	n2

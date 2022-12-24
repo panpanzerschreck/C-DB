@@ -25,7 +25,6 @@ public:
 	size_t get_ID() {
 		return ID;
 	}
-	string country;
 	string edition;
 	string bookName;
 	size_t PubH;
@@ -156,7 +155,6 @@ void reading() {
 				>> temp.Author
 				>> temp.PubH
 				>> temp.bookName
-				>> temp.country
 				>> temp.edition;
 			contracts.push_back(temp);
 		}
@@ -178,9 +176,8 @@ void reading() {
 void check_c() {
 	for (size_t i = 0; i < contracts.size(); i++)
 	{
-		cout << i + 1 << contracts[i].bookName << "\t"
+		cout << i + 1 << "\t" << contracts[i].bookName << "\t"
 			<< contracts[i].edition << "\t"
-			<< contracts[i].country << "\t"
 			<< contracts[i].get_ID()<< endl;
 	}
 }
@@ -212,7 +209,7 @@ void update_a(){
 			file << authors[i].get_ID()<<"\t"<<
 				authors[i].authName<<"\t"<<
 				authors[i].country<<"\t"<<
-				authors[i].dovidka<<"\t"<<
+				authors[i].dovidka<<
 				endl;
 		}
 		cout << "updated authors" << endl;
@@ -231,9 +228,9 @@ void update_c() {
 				contracts[i].Author << "\t" <<
 				contracts[i].PubH << "\t" <<
 				contracts[i].bookName << "\t" <<
-				contracts[i].country << "\t" <<
-				contracts[i].edition << "\t" <<
+				contracts[i].edition <<
 				endl;
+
 		}
 	}
 	else {
@@ -250,7 +247,7 @@ void update_pH(){
 				PubHs[i].country << "\t" <<
 				PubHs[i].ISBN << "\t" <<
 				PubHs[i].language << "\t" <<
-				PubHs[i].Name << "\t" <<
+				PubHs[i].Name <<
 				 endl;
 		}
 	}
@@ -260,7 +257,7 @@ void update_pH(){
 }
 
 void on_start() {
-	fstream file;
+	fstream cfile;
 	fstream afile;
 	fstream pfile;
 	contract temp_c;
@@ -269,8 +266,8 @@ void on_start() {
 	int inp, j;
 	afile.open("authors.txt");
 	pfile.open("pubHs.txt");
-	file.open("contracts.txt");
-	if (file.is_open())
+	cfile.open("contracts.txt");
+	if (cfile.is_open())
 	{
 		reading();
 		while (true)
@@ -308,9 +305,18 @@ void on_start() {
 				}
 				cout << "Enter publishing house\'s ID:" << endl;
 				cin >> inp;
-				temp_c.Author = authors[--inp].get_ID();
+				temp_c.PubH = PubHs[--inp].get_ID();
 				j = contracts.size();
-				temp_c.ID = contracts[j].ID++;
+				cout << j;
+				if (j == 1)
+				{
+					temp_c.ID = 0;
+				}
+				else
+				{
+					temp_c.ID = contracts[j--].ID++;
+				}
+				cout << j;
 				contracts.push_back(temp_c);
 				update_c();
 				break;
@@ -352,7 +358,7 @@ void on_start() {
 					}
 					else
 					{
-						temp_a.ID = authors[j].ID++;
+						temp_a.ID = authors[j--].ID++;
 					}
 					authors.push_back(temp_a);
 					update_a();
@@ -382,13 +388,13 @@ void on_start() {
 					cout << "Enter language" << endl;
 					cin >> temp_p.language;
 					j = PubHs.size();
-					if (j==1)
+					if (j==0)
 					{
 						temp_p.ID = 0;
 					}
 					else
 					{
-						temp_p.ID = PubHs[j].ID++;
+						temp_p.ID = PubHs[j--].ID++;
 					}
 					PubHs.push_back(temp_p);
 					update_pH();

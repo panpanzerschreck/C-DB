@@ -1,1 +1,2 @@
-0	a	b	c	
+0	auth1	cou1	det1
+1	auth2	cou2	det2
